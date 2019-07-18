@@ -161,7 +161,7 @@ export default {
         return;
       }
 
-      EMITTER.$off(`slideGroup:${oldVal}`, this._groupSlideHandler);
+      EMITTER.$off(`slide-group:${oldVal}`, this._groupSlideHandler);
       this.addGroupListeners();
     }
   },
@@ -172,7 +172,7 @@ export default {
         return;
       }
 
-      this.$emit('beforeSlide', {
+      this.$emit('before-slide', {
         currentSlide: this.currentSlide,
         slideTo: index
       });
@@ -185,7 +185,7 @@ export default {
 
       // Notify others if in a group and is the slide event initiator.
       if (this.group && isSource) {
-        EMITTER.$emit(`slideGroup:${this.group}`, slideIndex);
+        EMITTER.$emit(`slide-group:${this.group}`, slideIndex);
       }
 
       this.currentSlide = index;
@@ -364,7 +364,7 @@ export default {
     },
     onTransitionend() {
       this.isSliding = false;
-      this.$emit('afterSlide', {
+      this.$emit('after-slide', {
         currentSlide: this.currentSlide
       });
     },
@@ -423,7 +423,7 @@ export default {
         // set the isSource to false to prevent infinite emitting loop.
         this.slideTo(slideIndex, false);
       };
-      EMITTER.$on(`slideGroup:${this.group}`, this._groupSlideHandler);
+      EMITTER.$on(`slide-group:${this.group}`, this._groupSlideHandler);
     }
   },
   created() {
@@ -441,7 +441,7 @@ export default {
   beforeDestroy() {
     window.removeEventListener('resize', this.update);
     if (this.group) {
-      EMITTER.$off(`slideGroup:${this.group}`, this._groupSlideHandler);
+      EMITTER.$off(`slide-group:${this.group}`, this._groupSlideHandler);
     }
 
     if (this.timer) {
